@@ -26,7 +26,7 @@ export const SEUIL_VICTOIRE = 0.8; // [V]
 /** Décision d'une tribu : toutes les 4 à 8 s [V]. */
 export const DECISION_TRIBU_MIN = 4 * TICKS_PAR_SECONDE;
 export const DECISION_TRIBU_MAX = 8 * TICKS_PAR_SECONDE;
-export const RATIO_ATTAQUE_TRIBU = 20; // % [J]
+export const RATIO_ATTAQUE_TRIBU = 0.5; // % (réglé à la main : tribus lentes) [J]
 export const SEUIL_ATTAQUE_TRIBU = 0.5; // part du max de troupes [J]
 
 /** Difficulté de prise (spec 001, A4) [V]. */
@@ -36,6 +36,10 @@ export function sanglant(type: number): number {
 export function lent(type: number): number {
   return type === MONTAGNE ? 25 : type === HAUTEURS ? 20 : type === PLAINE ? 16.5 : 16.5;
 }
+
+/** Facteur global de lenteur des attaques [J] : la formule D2 brute (÷ longueur du front)
+ * donne des vitesses irréalistes (≈ 5 tuiles/s de rayon) ; à recalibrer en jouant. */
+export const FACTEUR_LENTEUR = 8;
 
 /** Au-delà de ~300 000 tuiles, courbe en S du bonus de taille [V] (forme exacte [?]). */
 export const TAILLE_MILIEU_BONUS = 300_000;

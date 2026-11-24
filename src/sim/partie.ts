@@ -334,7 +334,7 @@ export class Partie {
     if (!c || (cible !== 0 && !c.vivant)) return 0;
     // Immunité (CA-B2) : ni lancée par l'humain, ni contre lui.
     if (this.enImmunite() && (j.id === ID_HUMAIN || cible === ID_HUMAIN)) return 0;
-    const pct = borne(Math.floor(ratio), 1, 100);
+    const pct = borne(ratio, 0.01, 100);
     const engagees = Math.floor((pct / 100) * j.troupes);
     if (engagees < 1) return 0;
     let att = j.attaques.find((a) => a.cible === cible);
@@ -420,7 +420,7 @@ export class Partie {
 
   /** Coût en vitesse d'une tuile, en ticks (formule D2). */
   coutVitesse(r: number, type: number, longueurFront: number): number {
-    return (borne(r, 0.82, 7.5) * borne(r / 20, 1, 50)) / 8.55 * K.lent(type) / Math.max(1, longueurFront);
+    return (borne(r, 0.82, 7.5) * borne(r / 20, 1, 50)) / 8.55 * K.lent(type) * K.FACTEUR_LENTEUR / Math.max(1, longueurFront);
   }
 
   /** Avance une attaque d'un tick ; renvoie false si elle est terminée. */
