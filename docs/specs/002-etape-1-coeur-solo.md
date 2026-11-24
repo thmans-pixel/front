@@ -137,8 +137,10 @@ en très grande taille tient lieu de « Monde » pour l'étape et la PR le dit.
 
 **5.3 Cartes livrées dans le dépôt** : au moins `Petit carré`, `Losanges`,
 `Archipel`, `Terra moyenne`, `Terra grande` (taille choisie après mesure) et,
-si possible, `Monde`. Fichiers lourds : attention à la taille du dépôt
-(sous Git LFS ou régénérés à la construction ; à trancher, Q-b).
+si possible, `Monde`. Fichiers lourds : **régénérés** par `npm run cartes`
+(déterministe, graine fixée) et **non versionnés** ; seules sont ensuite
+**conservées dans le dépôt** les cartes que les joueurs ont appréciées
+(décision Q-b), avec leur graine et leurs paramètres notés dans l'index.
 
 ## 6. Règles de la simulation
 
@@ -162,9 +164,11 @@ unités internes sauf mention « affiché ».
 
 - Phase de **10 s** [V] ; le joueur clique une tuile de terre libre (non
   infranchissable) ; il peut changer jusqu'à la fin ; distance minimale
-  **30 tuiles** [V] à tout autre départ (tribus comprises : les tribus
-  s'apparaissent d'abord, le clic du joueur est refusé si trop proche d'une
-  tribu **[J]** — message « Trop près d'une tribu »).
+  **30 tuiles** [V] entre deux **tribus** ; **le joueur n'a aucune distance
+  minimale** : il peut apparaître juste à côté, même collé à une tribu
+  (décision de Thibault, Q-f). Son territoire de départ ne prend que des
+  tuiles libres. Seule contrainte : une tuile de terre libre, non
+  infranchissable.
 - Sans clic à la fin : **placement aléatoire** (CA-B1).
 - Les tribus apparaissent à des positions tirées au sort, ≥ 30 tuiles entre
   elles et d'un joueur ; leur nombre est réduit s'il n'y a pas la place (la PR
@@ -179,10 +183,13 @@ unités internes sauf mention « affiché ».
 - **Tribu** : 1 000 troupes affichées au départ, max ÷3, croissance ×0,5, or
   passif 500/s [V] ; réfléchit toutes les **4 à 8 s** [V] (tirage décalé par
   tribu, donc ~5 à 15 décisions par tick avec 400 tribus).
-- **Nombre de tribus** : réglable 0 à 400 [V], **défaut proportionnel aux
-  terres** : ⌊terres / 1 550⌋ plafonné à 400 pour les cartes ≤ Monde,
-  plafond relevé selon la mesure pour les grandes cartes **[J]**
-  (620 903 / 400 ≈ 1 552 terres par tribu sur le Monde).
+- **Nombre de tribus** : **choisi par le joueur à l'accueil** (futur salon),
+  de **0** (aucun adversaire) à un maximum **au moins égal à 400** (plus haut
+  sur les grandes cartes, selon la mesure § 9, et tant qu'il reste de la place
+  à 30 tuiles d'écart). Valeur proposée par défaut : ⌊terres / 1 550⌋ plafonné
+  à 400 (620 903 / 400 ≈ 1 552 terres par tribu sur le Monde) **[J]**.
+  Ce sont des « bots simples » : les nations (IA évoluées) viendront à
+  l'étape 3.
 - Une tribu **ne joue que contre ce qui touche son territoire** : à chaque
   décision, si elle a assez de troupes (≥ 50 % de son max **[J]**), elle attaque
   son voisin le plus faible ou la terre libre, avec ratio 20 % **[J]**. Elle
@@ -273,7 +280,8 @@ commentaire « valeur d'OpenFront v0.36.7 » ou « notre choix ».
 **Accueil** (maquette 8.1 de la spec 001, version réduite) : titre
 « Ligne de Front » **[Q2, nom proposé]**, pseudo, choix de la carte (liste
 avec fiche : taille, % de terres, nombre de tribus conseillé, « PC conseillé »),
-nombre de tribus, graine (facultative), bouton « Jouer ».
+**nombre de tribus au choix (curseur + saisie, 0 à maximum)**, graine
+(facultative), bouton « Jouer ».
 
 **Pseudo** 🔒 : stocké **seulement dans le navigateur**, jamais envoyé nulle
 part à cette étape ; 2 à 16 caractères, lettres/chiffres/espace/tiret ; **pseudo
@@ -440,13 +448,13 @@ Repris de la spec 001 pour le périmètre de l'étape, plus les nouveaux :
 4. Aucun stockage autre que `localStorage` (pseudo, derniers réglages).
 5. Site public ou protégé par SSO YunoHost (Q12 de la spec 001 : « ouvert »).
 
-## 14. Questions ouvertes
+## 14. Décisions sur les questions ouvertes (Thibault, 2026-11-24)
 
-| N° | Question | Ma proposition |
-|---|---|---|
-| Q-a | Node 22 ou plus est-il installé sur le PC Bazzite et sur thnas ? | Je vérifie ; sinon `nvm` ou Flatpak/YunoHost. |
-| Q-b | Les cartes générées lourdes : dans le dépôt (Git LFS), ou régénérées à la construction ? | Régénérées par `npm run cartes` (déterministe) ; seul le petit catalogue est versionné. |
-| Q-c | Carte « Monde » réelle dès l'étape 1, ou seulement procédurale (§ 5.2) ? | Procédural d'abord ; Monde réel en fin d'étape si les données se téléchargent proprement. |
-| Q-d | Domaine pour cette étape ? | `front.izicraft.fr` (Q4). |
-| Q-e | Taille des tribus sur les grandes cartes : plafond de 400 ou davantage (ex. 1 tribu / 1 550 terres) ? | Proportionnel, plafond fixé par la mesure. |
-| Q-f | Départ du joueur : refuser si trop près d'une tribu, ou déplacer la tribu ? | Refuser avec un message. |
+| N° | Décision |
+|---|---|
+| Q-a | **À vérifier** : PC Bazzite = Node v26.12.0, npm 11.20.0 (suffisant). **thnas = Node v16.20.2 (trop ancien)** pour `node --test` et pour le banc ; l'étape 1 étant un site statique, thnas n'a pas besoin de Node pour servir, mais pour le banc de mesure § 9 et l'étape 6 il faudra Node ≥ 22 (YunoHost ou installation à part, à faire avec `admin-thnas`). Esbuild et tsc ne sont pas encore installés : `npm install` au commit 1. |
+| Q-b | Cartes générées **non stockées** par défaut ; on ne **garde** dans le dépôt que celles que les joueurs apprécient. |
+| Q-c | OK : **procédural d'abord**, Monde réel en fin d'étape si les données sont propres. |
+| Q-d | OK : `front.izicraft.fr`. |
+| Q-e | Nombre de tribus **choisi par le joueur** (à l'accueil, plus tard dans le salon), de 0 à un maximum ≥ 400 ; ce sont des bots simples. |
+| Q-f | **Pas de refus** : le joueur peut apparaître même collé à une tribu. |
