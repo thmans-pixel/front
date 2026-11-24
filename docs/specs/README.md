@@ -15,4 +15,4 @@ ouvertes. Ce qui touche les enfants est signalé « 🔒 gardien-enfants ».
 
 | N°  | Titre                                   | Statut    |
 |-----|-----------------------------------------|-----------|
-| 001 | Cahier des charges général du jeu       | brouillon |
+| 001 | Cahier des charges général du jeu       | validée   |
