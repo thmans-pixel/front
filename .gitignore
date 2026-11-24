@@ -25,3 +25,6 @@ donnees/sauvegardes/
 .DS_Store
 Thumbs.db
 *.swp
+
+# Cartes générées (déterministes, voir CLAUDE.md)
+public/cartes/
