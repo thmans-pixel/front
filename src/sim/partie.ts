@@ -83,6 +83,8 @@ export class Partie {
   private journal = new Uint32Array(1024);
   private njournal = 0;
   private startTile: number[] = [];
+  /** Refus d'ordres du joueur depuis le dernier relevé (pour afficher un message). */
+  refus: string[] = [];
 
   constructor(carte: Carte, config: Config) {
     this.largeur = carte.largeur;
@@ -319,7 +321,9 @@ export class Partie {
       this.startTile.push(o.tuile);
       j.aApparu = true;
     } else if (o.type === 'attaquer') {
-      this.lancerAttaque(j, o.cible, o.ratio);
+      if (this.lancerAttaque(j, o.cible, o.ratio) === 0 && j.id === ID_HUMAIN) {
+        this.refus.push(this.enImmunite() ? 'immunite' : j.troupes < 1 ? 'troupes' : 'contact');
+      }
     } else {
       this.annulerAttaque(j, o.idAttaque);
     }
@@ -370,7 +374,8 @@ export class Partie {
   }
 
   private cle(t: number, tickPousse: number): number {
-    return tickPousse * BANDE + K.lent(this.terrain[t] & MASQUE_TYPE) * 10 + this.alea.entier(BANDE / 4);
+    // Délai aléatoire de 0 à 2 ticks : le front avance de façon irrégulière (contours arrondis).
+    return tickPousse * BANDE + K.lent(this.terrain[t] & MASQUE_TYPE) * 10 + this.alea.entier(BANDE * 1.5);
   }
 
   private pousser(a: Attaque, t: number, tickPousse: number): void {

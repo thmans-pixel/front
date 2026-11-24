@@ -210,3 +210,11 @@ test("CA-S2-5 : src/sim n'utilise aucune API du navigateur ni Math.random / Date
     }
   }
 });
+
+test('noms de tribus : 480 noms tous différents', async () => {
+  const { nomTribu } = await import('../src/sim/noms.ts');
+  const s = new Set<string>();
+  for (let i = 0; i < 480; i++) s.add(nomTribu(i));
+  assert.equal(s.size, 480);
+  assert.notEqual(nomTribu(480), nomTribu(0));
+});

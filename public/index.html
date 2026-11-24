@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Ligne de Front</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Accueil -->
+<main id="accueil">
+  <h1>Ligne de Front</h1>
+  <p class="sous-titre">Jeu de conquête en temps réel — solo contre des tribus</p>
+  <section class="carte-panneau">
+    <label>Ton pseudo
+      <span class="ligne"><input id="pseudo" maxlength="16" autocomplete="off"><button id="pseudo-alea" type="button" title="Autre pseudo">🎲</button></span>
+    </label>
+    <p id="pseudo-erreur" class="erreur" hidden></p>
+    <h2>Carte</h2>
+    <div id="cartes" class="liste-cartes">Chargement des cartes…</div>
+    <div class="reglages">
+      <label>Nombre de tribus : <output id="tribus-valeur">0</output>
+        <input id="tribus" type="range" min="0" max="400" step="1">
+      </label>
+      <label>Saisie directe <input id="tribus-nombre" type="number" min="0" max="2000" step="1"></label>
+      <label>Graine (facultative) <input id="graine" type="number" placeholder="au hasard"></label>
+    </div>
+    <p id="infos-carte" class="discret"></p>
+    <button id="jouer" type="button" class="gros" disabled>Jouer</button>
+    <p id="chargement" class="discret" hidden></p>
+    <p id="erreur-globale" class="erreur" hidden></p>
+  </section>
+</main>
+
+<!-- Jeu -->
+<div id="jeu" hidden>
+  <canvas id="canvas"></canvas>
+  <div id="repere" hidden></div>
+
+  <header id="bandeau">
+    <div class="bloc" title="Or"><span class="icone">💰</span> <b id="or">0</b> <small id="or-s"></small></div>
+    <div class="bloc troupes" title="Troupes disponibles / maximum">
+      <span class="icone">🪖</span>
+      <div class="barre"><div id="barre-dispo"></div><div id="barre-engagees"></div></div>
+      <span id="troupes-texte">0 / 0</span>
+    </div>
+    <div class="bloc" id="survol">&nbsp;</div>
+    <div class="droite">
+      <span id="chrono" title="Durée de la partie">0:00</span>
+      <button id="btn-pause" type="button" title="Pause">⏸</button>
+      <button id="btn-vitesse" type="button" title="Vitesse du jeu">×1</button>
+      <button id="btn-vue" type="button" title="Vue pays / terrain (Espace)">🗺</button>
+      <button id="btn-centrer" type="button" title="Centrer sur moi (C)">🎯</button>
+      <button id="btn-plein" type="button" title="Plein écran">⛶</button>
+      <button id="btn-quitter" type="button" title="Quitter la partie">☰</button>
+    </div>
+  </header>
+
+  <aside id="attaques" class="panneau-gauche"></aside>
+
+  <aside id="classement" class="panneau-droite">
+    <div class="titre-panneau"><span>Classement</span><button id="btn-tout" type="button">tout</button></div>
+    <ol id="classement-liste"></ol>
+  </aside>
+
+  <footer id="pied">
+    <label>Ratio d'attaque : <b id="ratio-valeur">20</b> %
+      <input id="ratio" type="range" min="1" max="100" value="20">
+    </label>
+  </footer>
+
+  <div id="bandeau-phase" hidden></div>
+  <div id="toast" hidden></div>
+
+  <div id="fin" class="modale" hidden>
+    <div class="boite">
+      <h2 id="fin-titre"></h2>
+      <p id="fin-texte"></p>
+      <ol id="fin-classement"></ol>
+      <p id="fin-duree" class="discret"></p>
+      <div class="boutons">
+        <button id="fin-suite" type="button">Regarder la suite</button>
+        <button id="fin-quitter" type="button" class="gros">Quitter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>

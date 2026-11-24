@@ -17,6 +17,7 @@ const ADJECTIFS = [
 export function nomTribu(indice: number): string {
   const total = NOMS.length * ADJECTIFS.length;
   const n = indice % total;
-  const base = `Tribu des ${NOMS[n % NOMS.length]} ${ADJECTIFS[Math.floor(n / NOMS.length)]}`;
+  const adj = (n + Math.floor(n / NOMS.length)) % ADJECTIFS.length; // 480 couples tous différents
+  const base = `Tribu des ${NOMS[n % NOMS.length]} ${ADJECTIFS[adj]}`;
   return indice < total ? base : `${base} ${Math.floor(indice / total) + 1}`;
 }
