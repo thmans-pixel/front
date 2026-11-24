@@ -1,0 +1,21 @@
+{
+  "name": "front",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Jeu de stratégie en temps réel dans le navigateur (familial)",
+  "license": "AGPL-3.0-only",
+  "scripts": {
+    "typer": "tsc --noEmit",
+    "test": "node --test tests/",
+    "build": "node scripts/construire.mjs",
+    "dev": "node scripts/construire.mjs --serve",
+    "cartes": "node outils/generer-carte.ts --tout",
+    "banc": "node outils/banc.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.6.0"
+  }
+}
