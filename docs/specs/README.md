@@ -16,4 +16,4 @@ ouvertes. Ce qui touche les enfants est signalé « 🔒 gardien-enfants ».
 | N°  | Titre                                   | Statut    |
 |-----|-----------------------------------------|-----------|
 | 001 | Cahier des charges général du jeu       | validée   |
-| 002 | Étape 1 : le cœur du jeu (solo)         | brouillon |
+| 002 | Étape 1 : le cœur du jeu (solo)         | validée   |

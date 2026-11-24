@@ -1,6 +1,6 @@
 # Spec 002 — Étape 1 : le cœur du jeu (solo)
 
-- **Statut : brouillon**
+- **Statut : validée** (par Thibault, 2026-11-24)
 - Date : 2026-11-24
 - Dépend de : spec 001 (validée), sections 5, 7.A à 7.D, 7.G, 8.3, 8.5, 9, 14
 - Branche prévue : `etape/01-coeur`
