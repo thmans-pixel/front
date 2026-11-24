@@ -8,6 +8,7 @@ let vitesse = 1;
 let dernier = 0;
 let acc = 0;
 let dernierStats = -1;
+let dernierStatsMs = 0;
 const MS_TICK = 1000 / TICKS_PAR_SECONDE;
 
 const envoyer = (m: DepuisWorker, transfert: Transferable[] = []): void =>
@@ -58,9 +59,10 @@ function boucle(): void {
   if (n > 0 || dernierStats < 0) {
     const modifs = p.prendreModifications();
     let stats: Stats | null = null;
-    if (p.tick - dernierStats >= 5 || p.fin) {
+    if (maintenant - dernierStatsMs >= 450 || p.fin || dernierStats < 0) {
       stats = calculerStats(p);
       dernierStats = p.tick;
+      dernierStatsMs = maintenant;
     }
     const refus = p.refus;
     p.refus = [];

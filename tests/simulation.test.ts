@@ -74,7 +74,7 @@ test('CA-C2 : T = 10 000 tuiles → max affiché 60 237 ± 1', () => {
 test('CA-C4 : les troupes ne dépassent jamais le max', () => {
   const carte = genererCarte({ genre: 'terra', largeur: 300, hauteur: 200, graine: 4 });
   const p = new Partie(carte, { graine: 4, tribus: 40, pseudo: 'T' });
-  for (let i = 0; i < 6000; i++) {
+  for (let i = 0; i < 30_000; i++) {
     p.avancer();
     if (i % 25 === 0) for (const j of p.joueurs) if (j.id > 0) assert.ok(j.troupes <= p.troupesMax(j) + 1e-6, `${j.nom} tick ${i}`);
   }
@@ -181,8 +181,8 @@ test('CA-S2-1 : déterminisme (mêmes graine et ordres → même empreinte chaqu
   const tailles: Array<[number, number, number]> = [[120, 90, 12], [220, 160, 40], [360, 240, 90]];
   for (const [l, h, tribus] of tailles) {
     const carte = genererCarte({ genre: 'terra', largeur: l, hauteur: h, graine: 17 });
-    const a = jouerScript(carte, tribus, 9000, 5);
-    const b = jouerScript(carte, tribus, 9000, 5);
+    const a = jouerScript(carte, tribus, 18_000, 5);
+    const b = jouerScript(carte, tribus, 18_000, 5);
     assert.deepEqual(a, b, `${l}×${h}`);
     const c = jouerScript(carte, tribus, 600, 6);
     assert.notDeepEqual(a.slice(0, c.length), c);
