@@ -39,7 +39,7 @@ export function lent(type: number): number {
 
 /** Facteur global de lenteur des attaques [J] : la formule D2 brute (÷ longueur du front)
  * donne des vitesses irréalistes (≈ 5 tuiles/s de rayon) ; à recalibrer en jouant. */
-export const FACTEUR_LENTEUR = 8;
+export const FACTEUR_LENTEUR = 3;
 
 /** Au-delà de ~300 000 tuiles, courbe en S du bonus de taille [V] (forme exacte [?]). */
 export const TAILLE_MILIEU_BONUS = 300_000;

@@ -508,7 +508,8 @@ function brancherBoutons(): void {
     envoyer({ type: 'vitesse', valeur: enPause ? 0 : vitesseChoisie });
   };
   $('btn-vitesse').onclick = () => {
-    vitesseChoisie = vitesseChoisie === 1 ? 2 : vitesseChoisie === 2 ? 0.5 : 1;
+    const cycle = [1, 2, 4, 8, 0.5];
+    vitesseChoisie = cycle[(cycle.indexOf(vitesseChoisie) + 1) % cycle.length];
     $('btn-vitesse').textContent = `×${vitesseChoisie}`;
     if (!enPause) envoyer({ type: 'vitesse', valeur: vitesseChoisie });
   };
