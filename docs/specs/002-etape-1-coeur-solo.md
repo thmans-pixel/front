@@ -284,7 +284,7 @@ avec fiche : taille, % de terres, nombre de tribus conseillé, « PC conseillé 
 (facultative), bouton « Jouer ».
 
 **Pseudo** 🔒 : stocké **seulement dans le navigateur**, jamais envoyé nulle
-part à cette étape ; 2 à 16 caractères, lettres/chiffres/espace/tiret ; **pseudo
+part à cette étape ; 2 à 20 caractères, lettres/chiffres/espace/tiret ; **pseudo
 aléatoire proposé par défaut** (liste adjectif + animal, à relire) ; filtre de
 mots interdits (liste à relire). Pas de tag à cette étape.
 

@@ -5,11 +5,11 @@ const NOMS = [
   'Renards', 'Loups', 'Hiboux', 'Saules', 'Chênes', 'Lynx', 'Castors', 'Hérissons',
   'Écureuils', 'Faucons', 'Cerfs', 'Ours', 'Hérons', 'Aigles', 'Bisons', 'Lièvres',
   'Pins', 'Érables', 'Bouleaux', 'Sapins', 'Frênes', 'Peupliers', 'Tilleuls', 'Cèdres',
-  'Blaireaux', 'Chamois', 'Dauphins', 'Pandas', 'Koalas', 'Lamas', 'Phoques', 'Pingouins',
+  'Blaireaux', 'Chamois', 'Dauphins', 'Pandas', 'Koalas', 'Lamas', 'Morses', 'Pingouins',
   'Corbeaux', 'Moineaux', 'Rossignols', 'Geais', 'Cygnes', 'Bambous', 'Roseaux', 'Nénuphars',
 ];
 const ADJECTIFS = [
-  'Bleus', 'Rouges', 'Verts', 'Gris', 'Blancs', 'Noirs', 'Dorés', 'Argentés',
+  'Bleus', 'Verts', 'Gris', 'Violets', 'Orangés', 'Cuivrés', 'Dorés', 'Argentés',
   'Rapides', 'Calmes', 'Joyeux', 'Braves',
 ];
 
