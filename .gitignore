@@ -1,0 +1,27 @@
+# Dépendances et constructions
+node_modules/
+dist/
+build/
+.cache/
+*.tsbuildinfo
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Données locales et secrets
+.env
+.env.*
+!.env.exemple
+*.log
+donnees/parties/
+donnees/sauvegardes/
+
+# Éditeurs et systèmes
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.swp

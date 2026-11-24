@@ -1,0 +1,13 @@
+Copyright (c) 2026 Thibault — tous droits réservés.
+
+Licence provisoire. Ce dépôt est un projet familial privé, réécrit sans
+reprendre de code, d'images, de cartes ni de sons d'OpenFront
+(https://github.com/openfrontio/OpenFrontIO).
+
+La licence définitive est une question ouverte de la spec 001
+(docs/specs/001-cahier-des-charges.md, section 3) :
+  - réécriture indépendante : licence au choix (proposition : AGPL v3, par
+    cohérence avec le projet qui nous inspire) ;
+  - fork d'OpenFront : AGPL v3 obligatoire, avec ses conditions
+    supplémentaires (mention « © OpenFront and Contributors » visible,
+    interdiction d'utiliser « OpenFront » comme titre).
