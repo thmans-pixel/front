@@ -338,6 +338,7 @@ export class Partie {
     if (!c || (cible !== 0 && !c.vivant)) return 0;
     // Immunité (CA-B2) : ni lancée par l'humain, ni contre lui.
     if (this.enImmunite() && (j.id === ID_HUMAIN || cible === ID_HUMAIN)) return 0;
+    if (!Number.isFinite(ratio)) return 0;
     const pct = borne(ratio, 0.01, 100);
     const engagees = Math.floor((pct / 100) * j.troupes);
     if (engagees < 1) return 0;

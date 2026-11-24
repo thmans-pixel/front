@@ -197,6 +197,7 @@ export class Rendu {
   /** Envoie la zone [x, x+w) × [y, y+h) (coordonnées de la dalle) à la carte graphique. */
   private televerser(d: Dalle, format: number, tex: WebGLTexture, source: Uint8Array | Uint16Array, x: number, y: number, w: number, h: number): void {
     const gl = this.gl;
+    gl.activeTexture(gl.TEXTURE0); // ne pas écraser la palette liée sur l'unité 2
     gl.bindTexture(gl.TEXTURE_2D, tex);
     gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
     gl.pixelStorei(gl.UNPACK_ROW_LENGTH, this.largeur);

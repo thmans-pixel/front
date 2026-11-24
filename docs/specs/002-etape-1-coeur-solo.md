@@ -458,3 +458,15 @@ Repris de la spec 001 pour le périmètre de l'étape, plus les nouveaux :
 | Q-d | OK : `front.izicraft.fr`. |
 | Q-e | Nombre de tribus **choisi par le joueur** (à l'accueil, plus tard dans le salon), de 0 à un maximum ≥ 400 ; ce sont des bots simples. |
 | Q-f | **Pas de refus** : le joueur peut apparaître même collé à une tribu. |
+
+---
+
+## 15. Écarts décidés pendant la réalisation (2026-11-24)
+
+À valider par Thibault avec la PR :
+
+- **Ratio d'attaque des tribus : 0,5 %** et non 20 % (§ 6.3) : avec 20 %, les tribus occupaient toute la carte en deux minutes. Valeur réglée « à l'œil », à recalibrer en jouant.
+- **Facteur de lenteur ×8** appliqué au coût en vitesse (§ 6.6) : la formule D2 brute donne des fronts bien trop rapides. Le bonus de taille est une courbe en S de notre choix.
+- **Pseudo de 2 à 20 caractères** (au lieu de 16) pour que les pseudos aléatoires proposés restent valides ; filtre durci après relecture du gardien-enfants.
+- **Non faits dans l'étape** : CA-D2 (aucun accès au code d'OpenFront pour les 10 cas de référence), règle des tuiles isolées, grille (M), noms des joueurs sur la carte, zoom Q/E (Q sert à aller à gauche en AZERTY : E/R zooment), bordures aux jointures de dalles de 2048 tuiles, mesures de rendu et de mémoire de l'onglet, mesures sur thnas.
+- **Archipel** : sans bateaux (étape 4), 80 % des terres peuvent être inatteignables ; la partie n'y est pas forcément gagnable.

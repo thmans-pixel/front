@@ -119,6 +119,7 @@ let ratio = 20;
 let survolEcran: { x: number; y: number } | null = null;
 let survolSale = false;
 let derniereAttaquesJson = '';
+let demandees = 0;
 
 function envoyer(m: VersWorker): void {
   worker?.postMessage(m);
@@ -203,6 +204,7 @@ function demarrer(carte: Carte, tribus: number, graineSaisie: number): void {
   worker = new Worker('sim.worker.js');
   worker.onmessage = (e: MessageEvent<DepuisWorker>) => surMessage(e.data);
   worker.onerror = (e) => afficherErreurJeu(e.message);
+  demandees = tribus;
   const graine = Number.isFinite(graineSaisie) && graineSaisie !== 0 ? Math.floor(graineSaisie) : Math.floor(Math.random() * 2 ** 31);
   envoyer({ type: 'init', largeur: carte.largeur, hauteur: carte.hauteur, terrain: carte.terrain, nom: carte.nom, config: { graine, tribus, pseudo } });
 }
@@ -219,6 +221,8 @@ function surMessage(m: DepuisWorker): void {
     rendu.definirPalette(construirePalette(m.tribusPlacees + 2));
     $('chargement').hidden = true;
     ($('jouer') as HTMLButtonElement).disabled = false;
+    if (m.tribusPlacees < demandees) toast(`${m.tribusPlacees} tribus placées sur ${demandees} demandées : pas assez de place sur la carte.`);
+    else if (demandees > 0) toast(`${m.tribusPlacees} tribus en jeu.`);
     return;
   }
   rendu.appliquer(m.modifs);
@@ -392,7 +396,7 @@ function tuileSousPointeur(px: number, py: number): number {
 function cliquer(px: number, py: number): void {
   if (!rendu || !dernieresStats) return;
   const t = tuileSousPointeur(px, py);
-  if (t < 0 || !(rendu.terrain[t] & 0x80)) return;
+  if (t < 0 || !(rendu.terrain[t] & 0x80) || (rendu.terrain[t] & 7) === 4) return;
   if (dernieresStats.phase === 'apparition') {
     if (rendu.proprio[t] !== 0) return toast('Cette terre est déjà prise.');
     tuileDepart = t;
@@ -478,6 +482,7 @@ function branchesEntrees(canvas: HTMLCanvasElement): void {
     else if (k === '-' || k === 'r') rendu.zoomer(0.8, rendu.cssCentre().x, rendu.cssCentre().y);
     else touches.add(k);
   });
+  window.addEventListener('blur', () => touches.clear());
   window.addEventListener('keyup', (e) => touches.delete(e.key.toLowerCase()));
 }
 
