@@ -9,7 +9,10 @@ const INTERDITS_PARTOUT = [
   'putain', 'salope', 'salaud', 'encul', 'connard', 'connasse', 'merde', 'merdeux', 'hitler', 'nazi', 'pedophile',
   'pedale', 'bougnoul', 'youpin', 'nigger', 'nigga', 'negro', 'faggot', 'whore', 'pussy', 'jihad',
   'daesh', 'gestapo', 'shoah', 'branle', 'nichon', 'sodomie', 'bordel', 'suicid', 'fuck', 'fvck', 'shit', 'bitch',
-  'cunt', 'porn', 'chinetoque',
+  'cunt', 'porn', 'chinetoque', 'salopard', 'connerie', 'tapette', 'tarlouze', 'couille', 'penis', 'vagin', 'hentai',
+  'negre', 'bamboula', 'chintok', 'chingchong', 'mongolien', 'adolf', 'siegheil', 'kuklux', 'daech', 'salejuif',
+  'salearabe', 'salenoir', 'violeur', 'rapist', 'killyourself', 'terroriste', 'cocaine', 'niquetam', 'sucemoi',
+  'sucemabite', 'sucemaqueue',
 ];
 
 /** Mots refusés seulement comme mots entiers (courts, ou communs dans d'autres mots : Monique, Violette…). */
@@ -17,6 +20,7 @@ const INTERDITS_MOT = [
   'pd', 'fdp', 'ntm', 'tg', 'pede', 'pedo', 'pute', 'gouine', 'nique', 'niquer', 'nik', 'cul', 'bite', 'sex', 'sexe', 'viol',
   'chier', 'zob', 'teub', 'teube', 'chatte', 'cocu', 'bander', 'baiser', 'pisse', 'mongol', 'triso', 'feuj', 'bicot',
   'fag', 'slut', 'cock', 'rape', 'retard', 'isis', 'kkk', 'conne', 'con', 'cons', 'sida',
+  'sucer', 'suce', 'zizi', 'fck', 'fuk', 'ptn', 'dick', 'cum', 'anal', 'violer', 'kys', 'tuer', 'drogue', 'bite',
 ];
 
 const LEET: Record<string, string> = { '0': 'o', '1': 'i', '3': 'e', '4': 'a', '5': 's', '7': 't', '@': 'a', $: 's' };
@@ -45,7 +49,7 @@ export const LONGUEUR_MAX_PSEUDO = 20;
 
 /** Renvoie un message d'erreur, ou null si le pseudo est accepté. */
 export function verifierPseudo(p: string): string | null {
-  const s = p.trim();
+  const s = p.trim().normalize('NFC');
   if (s.length < 2 || s.length > LONGUEUR_MAX_PSEUDO) return `Le pseudo doit faire entre 2 et ${LONGUEUR_MAX_PSEUDO} caractères.`;
   if (!/^[\p{Script=Latin}\p{N} -]+$/u.test(s)) return 'Le pseudo ne peut contenir que des lettres (alphabet latin), des chiffres, des espaces et des tirets.';
   const n = normaliser(s);
@@ -61,7 +65,11 @@ export function verifierPseudo(p: string): string | null {
     }
   }
   const colle = mots.join('');
-  if (mots.some((m) => MOTS.has(m)) || PARTOUT.some((m) => colle.includes(m))) {
+  // Pluriels (« putes ») et mots coupés en deux (« pu te ») : on teste aussi la forme sans s/x finale
+  // et les paires de mots voisins recollées.
+  const interdit = (m: string): boolean => MOTS.has(m) || (m.length > 2 && /[sx]$/.test(m) && MOTS.has(m.slice(0, -1)));
+  const paires = mots.some((m, i) => i + 1 < mots.length && interdit(m + mots[i + 1]));
+  if (/1488/.test(s) || paires || mots.some(interdit) || PARTOUT.some((m) => colle.includes(m))) {
     return "Ce pseudo n'est pas accepté. Choisis-en un autre.";
   }
   return null;
