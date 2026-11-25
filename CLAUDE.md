@@ -29,18 +29,29 @@ YunoHost).
 
 ## Lancer
 
-À compléter quand la technique sera choisie (spec 001, section 5).
+Prérequis : Node 22 ou plus (testé avec Node 26 sur le PC Bazzite) et `npm install`.
+
+- `npm run dev` : construit et sert le jeu sur http://localhost:8080/ (reconstruction automatique).
+- `npm run build` : site statique complet dans `dist/` (les cartes sont générées dans `dist/cartes/` si elles manquent ; `node scripts/construire.mjs --cartes` force la régénération).
+- Démarrage direct sans l'accueil (développement, captures) : `/?auto=terra-moyenne&tribus=120`.
+- `npm run cartes` : régénère les cartes dans `public/cartes/` ; générateur seul : `node outils/generer-carte.ts --genre terra --largeur 4128 --hauteur 2064 --graine 3 --sortie ...` (voir `outils/generer-carte.ts`).
+- `npm run banc` : banc de mesure de la simulation sans affichage (résultats dans `docs/perf.md`).
 
 ## Tester
 
-À compléter quand la technique sera choisie. Prévu : tests automatiques de la
-simulation (déterminisme, formules de combat, croissance) qui tournent sans
-navigateur.
+- `npm test` : tests de la simulation, du format de carte et du générateur (lanceur intégré de Node, sans navigateur).
+- `npm run typer` : vérification des types (`tsc --noEmit`).
+- Le rendu WebGL2 et l'interface ne sont pas testés automatiquement : à vérifier à la main (spec 002, critères « manuel »).
 
 ## Déployer sur thnas
 
-À compléter (spec 001, section 10) : domaine YunoHost, service systemd,
-journaux, procédure de mise à jour.
+Étape 1 = site statique (aucun serveur Node). **Procédure non encore exécutée** (pas d'accès à thnas depuis le PC de développement lors de l'étape 1) :
+
+1. `npm run build` sur le PC.
+2. Copier `dist/` sur thnas dans la racine d'un site statique YunoHost (domaine prévu : `front.izicraft.fr`, spec 002 Q-d).
+3. Vérifier que nginx sert `.fmap` en `application/octet-stream` (le client sait lire aussi un fichier déjà décompressé par le serveur).
+
+Service systemd, journaux et mise à jour : à compléter avec l'étape 6 (multijoueur).
 
 ## Pièges connus
 
@@ -48,3 +59,8 @@ journaux, procédure de mise à jour.
 
 - Les troupes sont stockées ×10 en interne et affichées ÷10 (convention
   reprise d'OpenFront) : ne jamais mélanger les deux unités dans une formule.
+- Le code de `src/` et `outils/` s'exécute directement par Node (suppression native des types) : imports avec l'extension `.ts`, `import type` pour les types, pas d'`enum` ni de propriétés de paramètres de constructeur.
+- `src/sim/` ne doit rien importer du navigateur ni utiliser `Math.random` / `Date.now` (test CA-S2-5) : toute l'aléa passe par `Alea` (déterminisme).
+- Mémoire de la simulation : environ 11 octets par tuile (terrain, propriétaire, position de bordure, marque d'attaque), plus une copie du terrain et des propriétaires côté client.
+- Les constantes marquées `[J]` ou `[?]` dans `src/sim/constantes.ts` ne viennent pas d'OpenFront : vitesse d'attaque (`FACTEUR_LENTEUR`) et agressivité des tribus sont réglées « à l'œil » et à recalibrer en jouant.
+- En test navigateur, Chromium garde `dist/main.js` en cache : désactiver le cache (ou recharger sans cache) après chaque `npm run build`.

@@ -1,6 +1,6 @@
 # Spec 001 — Cahier des charges général du jeu
 
-- **Statut : brouillon**
+- **Statut : validée** (par Thibault, 2026-11-24 — voir « Décisions » en fin de document)
 - Date : 2026-11-24
 - Dépôt : `thmans-pixel/front`
 - Référence : OpenFront 0.36 (code lu : tag `v0.36.7` de `openfrontio/OpenFrontIO`)
@@ -917,3 +917,39 @@ Critères d'acceptation :
 | Q11 | Joueur absent pendant la phase d'apparition : placé au hasard ou spectateur ? | Placé au hasard. |
 | Q12 | Solo accessible à tous ceux qui ont l'adresse, ou derrière le SSO YunoHost aussi ? | Ouvert (comme tower), il ne montre rien de privé. |
 | Q13 | Carte de l'étape 1 : Monde directement, ou France d'abord (plus petite) ? | Monde, avec repli France si CA-PERF-1 n'est pas atteint. |
+
+---
+
+## 14. Décisions de Thibault (2026-11-24)
+
+Spec validée. Réponses aux questions ouvertes :
+
+- **Q1** : **réécriture indépendante**, pour un usage familial et entre amis ;
+  licence **AGPL v3** acceptée.
+- **Q3** : **option A** (TypeScript partout, serveur Node).
+- **Q13** : carte Monde à l'étape 1, **mais l'objectif est aussi d'avoir de
+  très grandes cartes, détaillées**, et de proposer des **cartes simples**
+  (continents carrés, losanges, etc.).
+- **Autres questions (Q2, Q4 à Q12)** : les propositions de la spec sont
+  retenues telles quelles (« la spec est validée »).
+
+### Conséquences sur la conception
+
+1. **Dimensionner pour thnas** (AMD Ryzen 7 8600G, 32 Go DDR5) : la taille
+   maximale des cartes n'est plus fixée sur le Monde (2064 × 1032) mais
+   déterminée par mesure ; la structure de données et le serveur doivent
+   permettre des cartes bien plus grandes. Le serveur Node (étape 6) peut
+   exécuter la simulation : sa marge mémoire et CPU est le plafond à mesurer.
+   Les navigateurs des joueurs (tablettes comprises, CA-PERF-2) restent le
+   second plafond : les grandes cartes sont signalées « PC conseillé » dans la
+   fiche carte.
+2. **Cartes de taille variable dès l'étape 1** : aucune dimension codée en
+   dur ; tableaux typés dimensionnés à partir de la carte ; identifiants de
+   propriétaire et de tuile assez larges pour dépasser 16 millions de tuiles.
+3. **Générateur de cartes simples** (continents carrés, losanges, archipels,
+   etc.) en plus des cartes réelles : paramétrable en taille, utile aussi aux
+   tests de performance et de déterminisme.
+4. **Nouveau critère CA-PERF-6** : une carte d'au moins 4 fois la surface du
+   Monde (≈ 8 millions de tuiles) se charge et se joue sur thnas/PC sans
+   dépasser les budgets mémoire ; les limites réelles mesurées sont notées
+   dans le catalogue.

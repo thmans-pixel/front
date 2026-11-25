@@ -18,13 +18,16 @@ hébergé à la maison, sur le serveur **thnas** (Debian 12 + YunoHost).
 
 ## État
 
-Projet en conception. Le cahier des charges est en cours de rédaction :
-[`docs/specs/`](docs/specs/). Aucune ligne de code du jeu n'est écrite tant
-que la spec n'est pas validée.
+Étape 1 (cœur solo) en cours de réalisation — spec
+[`docs/specs/002-etape-1-coeur-solo.md`](docs/specs/002-etape-1-coeur-solo.md) :
+cartes générées (carrés, losanges, archipels, continents), apparition,
+expansion, attaques, tribus, classement, victoire à 80 %. Le plan général est
+dans [`docs/specs/`](docs/specs/).
 
 ## Lancer, tester, déployer
 
-À compléter quand la technique aura été choisie (voir la spec 001).
+Voir [`CLAUDE.md`](CLAUDE.md) (commandes `npm run dev`, `npm test`, `npm run build`).
+Mesures de performance : [`docs/perf.md`](docs/perf.md).
 
 ## Licence
 
