@@ -11,7 +11,8 @@ const INTERDITS_PARTOUT = [
   'sodomie', 'bordel', 'suicid', 'fuck', 'fvck', 'phuck', 'fuxk', 'shithead', 'bullshit', 'chinetoque', 'salopard',
   'tarlouze', 'couille', 'penis', 'hentai', 'bamboula', 'chintok', 'chingchong', 'mongolien', 'siegheil', 'kuklux',
   'salejuif', 'salearabe', 'salenoir', 'violeur', 'killyourself', 'terroriste', 'cocaine', 'niquetam', 'sucemoi',
-  'sucemabite', 'sucemaqueue', 'tuetoi', 'petasse', 'poufiasse', 'asshole', 'nazisme', 'pornhub', 'salepute', 'filsdepute',
+  'sucemabite', 'sucemaqueue', 'tuetoi', 'petasse', 'poufiasse', 'asshole', 'nazisme', 'pornhub', 'salepute', 'filsdepute', 'tamerelapute', 'lapute', 'tapute', 'labite', 'tabite', 'niktam', 'pvtain', 'poutain', 'vagina',
+  'sodomite',
 ];
 
 /** Mots refusés tels quels, sans aplatissement : le mot aplati serait un nom propre (« Niger », « Fagot »). */
@@ -28,10 +29,11 @@ const INTERDITS_MOT = [
 ];
 
 /** Sous-ensemble des mots entiers qu'on cherche aussi quand ils sont coupés en 2 à 4 morceaux (« pu te »). */
-const COUPABLES = new Set(['pute', 'putin', 'nique', 'niquer', 'gouine', 'chatte', 'salope', 'connard', 'merde', 'bite', 'zizi', 'vagin']);
+const COUPABLES = new Set(['pute', 'putin', 'nique', 'niquer', 'gouine', 'chatte', 'salope', 'connard', 'merde', 'bite', 'zizi', 'vagin', 'ptain']);
 
-const LEET: Record<string, string> = { '0': 'o', '1': 'i', '3': 'e', '4': 'a', '5': 's', '7': 't' };
-const SPECIALES: Record<string, string> = { œ: 'oe', æ: 'ae', ß: 'ss', ø: 'o', ł: 'l', đ: 'd', ð: 'd', þ: 'th' };
+// « 1 » peut valoir i ou l : on teste les deux lectures (voir verifierPseudo).
+const LEET: Record<string, string> = { '0': 'o', '3': 'e', '4': 'a', '5': 's', '6': 'g', '7': 't', '8': 'b', '9': 'g' };
+const SPECIALES: Record<string, string> = { œ: 'oe', æ: 'ae', ß: 'ss', ø: 'o', ł: 'l', đ: 'd', ð: 'd', þ: 'th', ı: 'i', ŋ: 'n', ɔ: 'o', ɛ: 'e', ɓ: 'b', ħ: 'h', ŧ: 't', ŀ: 'l' };
 
 const collapser = (m: string): string => m.replace(/(.)\1+/g, '$1');
 const PARTOUT = INTERDITS_PARTOUT.map(collapser);
@@ -39,14 +41,14 @@ const MOTS = new Set(INTERDITS_MOT.map(collapser));
 const COUPES = new Set([...COUPABLES].map(collapser));
 
 /** Sans accents ni majuscules ; chiffres ramenés à des lettres. Renvoie null s'il reste un caractère exotique. */
-function normaliser(s: string): string | null {
+function normaliser(s: string, un: string): string | null {
   const n = s
     .normalize('NFKD')
     .replace(/[̀-ͯ]/g, '')
     .toLowerCase()
-    .replace(/[œæßøłđðþ]/g, (c) => SPECIALES[c]);
+    .replace(/[œæßøłđðþıŋɔɛɓħŧŀ]/g, (c) => SPECIALES[c]);
   if (/[^a-z0-9 -]/.test(n)) return null; // petites capitales, ı, ƒ… : refusés plutôt que supprimés en silence
-  return n.replace(/[01345 7]/g, (c) => LEET[c] ?? c).replace(/[^a-z -]/g, '');
+  return n.replace(/1/g, un).replace(/[0345-9]/g, (c) => LEET[c]).replace(/[^a-z -]/g, '');
 }
 
 function interdit(m: string): boolean {
@@ -54,8 +56,8 @@ function interdit(m: string): boolean {
 }
 
 /** Vrai si le texte (déjà validé : latin, chiffres, espaces, tirets) contient un mot interdit. */
-function contientInterdit(s: string): boolean {
-  const n = normaliser(s);
+function contientInterdit(s: string, un: string): boolean {
+  const n = normaliser(s, un);
   if (n === null) return true;
   const brut = n.split(/[ -]+/).filter(Boolean);
   // « p u t e » : les lettres isolées qui se suivent sont recollées en un mot.
@@ -101,9 +103,8 @@ export function verifierPseudo(p: string): string | null {
   const sansChiffresAuxBouts = s.normalize('NFKD').replace(/(^|[ -])[0-9]+/g, '$1').replace(/[0-9]+(?=[ -]|$)/g, '');
   if (
     /kkk/.test(minuscule) ||
-    /(^|\D)14[ -]?88(\D|$)/.test(s) ||
-    contientInterdit(s) ||
-    contientInterdit(sansChiffresAuxBouts) // « pute2010 »
+    /(^|\D)1[ -]*4[ -]*8[ -]*8(\D|$)/.test(s) ||
+    ['i', 'l'].some((un) => contientInterdit(s, un) || contientInterdit(sansChiffresAuxBouts, un)) // « pute2010 », « hit1er »
   ) {
     return "Ce pseudo n'est pas accepté. Choisis-en un autre.";
   }
