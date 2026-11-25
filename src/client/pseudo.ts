@@ -48,7 +48,13 @@ function normaliser(s: string, un: string): string | null {
     .toLowerCase()
     .replace(/[œæßøłđðþıŋɔɛɓħŧŀ]/g, (c) => SPECIALES[c]);
   if (/[^a-z0-9 -]/.test(n)) return null; // petites capitales, ı, ƒ… : refusés plutôt que supprimés en silence
-  return n.replace(/1/g, un).replace(/[0345-9]/g, (c) => LEET[c]).replace(/[^a-z -]/g, '');
+  // Les nombres seuls (« 76 », « 2014 ») ne sont pas lus comme des lettres ; les chiffres ambigus (1, 6, 8, 9) en fin
+  // de mot non plus (« Anna1 », « Zo8 ») : ce sont des numéros. Les autres chiffres, ou ceux du début et du milieu, sont du leet.
+  return n
+    .split(/([ -]+)/)
+    .map((j) => (/^[0-9]+$/.test(j) ? '' : j.replace(/[0-9]*[1689][0-9]*$/, '').replace(/1/g, un).replace(/[0345-9]/g, (c) => LEET[c])))
+    .join('')
+    .replace(/[^a-z -]/g, '');
 }
 
 function interdit(m: string): boolean {
@@ -100,10 +106,11 @@ export function verifierPseudo(p: string): string | null {
   if (s.length < 2 || s.length > LONGUEUR_MAX_PSEUDO) return `Le pseudo doit faire entre 2 et ${LONGUEUR_MAX_PSEUDO} caractères.`;
   if (!/^[\p{Script=Latin}\p{N} -]+$/u.test(s)) return 'Le pseudo ne peut contenir que des lettres (alphabet latin), des chiffres, des espaces et des tirets.';
   const minuscule = s.toLowerCase();
-  const sansChiffresAuxBouts = s.normalize('NFKD').replace(/(^|[ -])[0-9]+/g, '$1').replace(/[0-9]+(?=[ -]|$)/g, '');
+  const nfkd = s.normalize('NFKD');
+  const sansChiffresAuxBouts = nfkd.replace(/(^|[ -])[0-9]+/g, '$1').replace(/[0-9]+(?=[ -]|$)/g, '');
   if (
     /kkk/.test(minuscule) ||
-    /(^|\D)1[ -]*4[ -]*8[ -]*8(\D|$)/.test(s) ||
+    /(^|\D)1[ -]*4[ -]*8[ -]*8(\D|$)/.test(nfkd) ||
     ['i', 'l'].some((un) => contientInterdit(s, un) || contientInterdit(sansChiffresAuxBouts, un)) // « pute2010 », « hit1er »
   ) {
     return "Ce pseudo n'est pas accepté. Choisis-en un autre.";

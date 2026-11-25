@@ -14,7 +14,7 @@ test('les pseudos aléatoires sont toujours acceptés', () => {
 });
 
 test('prénoms et mots courants acceptés', () => {
-  for (const p of ['Violette', 'Véronique', 'Monique', 'Dominique', 'Hercule', 'Calcul', 'Habite', 'Fichier', 'Essex', 'Cap Dorian', 'Léo', 'Arthur', 'Mort-Subite', 'Canal', 'Animal', 'Couleur', 'Dickens', 'Cumin', 'Sucette', 'Tuerie', 'Dominique', 'Habite', 'Nazim', 'Nazir', 'Harshit', 'Niger', 'Montenegro', 'Adolfo', 'Cornichon', 'Léa K', 'Ana L', 'Ana Zia', 'Ta Pete', 'Cône', 'Succès', 'Pise', 'Fagot', 'Maçonnerie', 'Sauvagin', 'Bitche', 'Therapist', 'Zoé 2014 88', 'Łukasz', 'Søren', 'Fuchsia', 'Confucius', 'Fuchs', 'Sıla', 'Kıvanç', 'Kɔfi', 'Zoé 1985', 'Léo 2014', 'Mathis 99', 'Lola 1', 'Elisabeth', 'Camille']) {
+  for (const p of ['Violette', 'Véronique', 'Monique', 'Dominique', 'Hercule', 'Calcul', 'Habite', 'Fichier', 'Essex', 'Cap Dorian', 'Léo', 'Arthur', 'Mort-Subite', 'Canal', 'Animal', 'Couleur', 'Dickens', 'Cumin', 'Sucette', 'Tuerie', 'Dominique', 'Habite', 'Nazim', 'Nazir', 'Harshit', 'Niger', 'Montenegro', 'Adolfo', 'Cornichon', 'Léa K', 'Ana L', 'Ana Zia', 'Ta Pete', 'Cône', 'Succès', 'Pise', 'Fagot', 'Maçonnerie', 'Sauvagin', 'Bitche', 'Therapist', 'Zoé 2014 88', 'Łukasz', 'Søren', 'Fuchsia', 'Confucius', 'Fuchs', 'Sıla', 'Kıvanç', 'Kɔfi', 'Zoé 1985', 'Léo 2014', 'Mathis 99', 'Lola 1', 'Elisabeth', 'Camille', 'Anna1', 'Ana12', 'Anna21', 'Zo8', 'Cu1', 'Fa6', 'Léo 76', 'Lola 79', 'Alex 7 9', '76 Max', 'Hugo16', 'Tom 1er']) {
     assert.equal(verifierPseudo(p), null, p);
   }
 });
@@ -22,7 +22,7 @@ test('prénoms et mots courants acceptés', () => {
 test('mots interdits et contournements refusés', () => {
   for (const p of ['merde', 'm3rd3', 'fvck', 'sh1t', 'n1que', 'puuute', 'p u t e', 'PUTAIN', 'pd', 'ＰＵＴＥ', 'pédé lol', 'ntm', 'Hitler', 'tr0is nazi', 'аrthur' /* « а » cyrillique */,
     'putes', 'culs', 'bites', 'niquetamere', 'pu te', 'suce ma bite', 'salopard', 'negre', 'violeur', 'kys', 'cocaine', 'sale juif', '1488', 'couilles', 'siegheil',
-    'n i g g e r', 'c o n n a r d', 'pute1', 'pute2010', 'p ut e', 'salePute', 'ᴘᴜᴛᴇ', 'tue toi', 'creve', '14 88', 'pétasse', 'batard', 'enkulé', 'Kevin KKK', 'pute①', 'pute１', 'ｐｕｔｅ１', 'ni99er', 'hit1er', 'sa1ope', '8ordel', '14  88', '14 - 88', '1 4 8 8', 'tamerelapute', 'labite', 'niktamere', 'p-tain', 'pvtain', 'vagina']) {
+    'n i g g e r', 'c o n n a r d', 'pute1', 'pute2010', 'p ut e', 'salePute', 'ᴘᴜᴛᴇ', 'tue toi', 'creve', '14 88', 'pétasse', 'batard', 'enkulé', 'Kevin KKK', 'pute①', 'pute１', 'ｐｕｔｅ１', 'ni99er', 'hit1er', 'sa1ope', '8ordel', '14  88', '14 - 88', '1 4 8 8', 'tamerelapute', 'labite', 'niktamere', 'p-tain', 'pvtain', 'vagina', '１４８８', '①④⑧⑧', 'Zoé １４ ８８', 'm3rd3', 'n1que', 'ni99er']) {
     assert.notEqual(verifierPseudo(p), null, p);
   }
 });
