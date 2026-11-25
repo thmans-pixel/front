@@ -14,15 +14,20 @@ test('les pseudos aléatoires sont toujours acceptés', () => {
 });
 
 test('prénoms et mots courants acceptés', () => {
-  for (const p of ['Violette', 'Véronique', 'Monique', 'Dominique', 'Hercule', 'Calcul', 'Habite', 'Fichier', 'Essex', 'Cap Dorian', 'Léo', 'Arthur', 'Mort-Subite']) {
+  for (const p of ['Violette', 'Véronique', 'Monique', 'Dominique', 'Hercule', 'Calcul', 'Habite', 'Fichier', 'Essex', 'Cap Dorian', 'Léo', 'Arthur', 'Mort-Subite', 'Canal', 'Animal', 'Couleur', 'Dickens', 'Cumin', 'Sucette', 'Tuerie', 'Dominique', 'Habite']) {
     assert.equal(verifierPseudo(p), null, p);
   }
 });
 
 test('mots interdits et contournements refusés', () => {
-  for (const p of ['merde', 'm3rd3', 'fvck', 'sh1t', 'n1que', 'puuute', 'p u t e', 'PUTAIN', 'pd', 'ＰＵＴＥ', 'pédé lol', 'ntm', 'Hitler', 'tr0is nazi', 'аrthur' /* « а » cyrillique */]) {
+  for (const p of ['merde', 'm3rd3', 'fvck', 'sh1t', 'n1que', 'puuute', 'p u t e', 'PUTAIN', 'pd', 'ＰＵＴＥ', 'pédé lol', 'ntm', 'Hitler', 'tr0is nazi', 'аrthur' /* « а » cyrillique */,
+    'putes', 'culs', 'bites', 'niquetamere', 'pu te', 'suce ma bite', 'salopard', 'negre', 'violeur', 'kys', 'cocaine', 'sale juif', '1488', 'couilles', 'siegheil']) {
     assert.notEqual(verifierPseudo(p), null, p);
   }
+});
+
+test('pseudo décomposé (NFD) accepté', () => {
+  assert.equal(verifierPseudo('Hérisson'.normalize('NFD')), null);
 });
 
 test('longueur et caractères', () => {
