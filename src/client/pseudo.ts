@@ -8,7 +8,7 @@ const ANIMAUX = ['Renard', 'Loup', 'Hibou', 'Lynx', 'Castor', 'Hérisson', 'Fauc
 const INTERDITS_PARTOUT = [
   'putain', 'salope', 'salaud', 'encul', 'enkul', 'ankul', 'ancul', 'connard', 'connasse', 'merde', 'merdeux', 'hitler',
   'pedophile', 'pedale', 'bougnoul', 'youpin', 'whore', 'pussy', 'jihad', 'daesh', 'daech', 'gestapo', 'shoah', 'branle',
-  'sodomie', 'bordel', 'suicid', 'fuck', 'fvck', 'phuck', 'fuxk', 'fucc', 'shithead', 'bullshit', 'chinetoque', 'salopard',
+  'sodomie', 'bordel', 'suicid', 'fuck', 'fvck', 'phuck', 'fuxk', 'shithead', 'bullshit', 'chinetoque', 'salopard',
   'tarlouze', 'couille', 'penis', 'hentai', 'bamboula', 'chintok', 'chingchong', 'mongolien', 'siegheil', 'kuklux',
   'salejuif', 'salearabe', 'salenoir', 'violeur', 'killyourself', 'terroriste', 'cocaine', 'niquetam', 'sucemoi',
   'sucemabite', 'sucemaqueue', 'tuetoi', 'petasse', 'poufiasse', 'asshole', 'nazisme', 'pornhub', 'salepute', 'filsdepute',
@@ -98,7 +98,7 @@ export function verifierPseudo(p: string): string | null {
   if (s.length < 2 || s.length > LONGUEUR_MAX_PSEUDO) return `Le pseudo doit faire entre 2 et ${LONGUEUR_MAX_PSEUDO} caractères.`;
   if (!/^[\p{Script=Latin}\p{N} -]+$/u.test(s)) return 'Le pseudo ne peut contenir que des lettres (alphabet latin), des chiffres, des espaces et des tirets.';
   const minuscule = s.toLowerCase();
-  const sansChiffresAuxBouts = s.replace(/(^|[ -])[0-9]+/g, '$1').replace(/[0-9]+(?=[ -]|$)/g, '');
+  const sansChiffresAuxBouts = s.normalize('NFKD').replace(/(^|[ -])[0-9]+/g, '$1').replace(/[0-9]+(?=[ -]|$)/g, '');
   if (
     /kkk/.test(minuscule) ||
     /(^|\D)14[ -]?88(\D|$)/.test(s) ||

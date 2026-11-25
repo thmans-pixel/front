@@ -14,7 +14,7 @@ test('les pseudos aléatoires sont toujours acceptés', () => {
 });
 
 test('prénoms et mots courants acceptés', () => {
-  for (const p of ['Violette', 'Véronique', 'Monique', 'Dominique', 'Hercule', 'Calcul', 'Habite', 'Fichier', 'Essex', 'Cap Dorian', 'Léo', 'Arthur', 'Mort-Subite', 'Canal', 'Animal', 'Couleur', 'Dickens', 'Cumin', 'Sucette', 'Tuerie', 'Dominique', 'Habite', 'Nazim', 'Nazir', 'Harshit', 'Niger', 'Montenegro', 'Adolfo', 'Cornichon', 'Léa K', 'Ana L', 'Ana Zia', 'Ta Pete', 'Cône', 'Succès', 'Pise', 'Fagot', 'Maçonnerie', 'Sauvagin', 'Bitche', 'Therapist', 'Zoé 2014 88', 'Łukasz', 'Søren']) {
+  for (const p of ['Violette', 'Véronique', 'Monique', 'Dominique', 'Hercule', 'Calcul', 'Habite', 'Fichier', 'Essex', 'Cap Dorian', 'Léo', 'Arthur', 'Mort-Subite', 'Canal', 'Animal', 'Couleur', 'Dickens', 'Cumin', 'Sucette', 'Tuerie', 'Dominique', 'Habite', 'Nazim', 'Nazir', 'Harshit', 'Niger', 'Montenegro', 'Adolfo', 'Cornichon', 'Léa K', 'Ana L', 'Ana Zia', 'Ta Pete', 'Cône', 'Succès', 'Pise', 'Fagot', 'Maçonnerie', 'Sauvagin', 'Bitche', 'Therapist', 'Zoé 2014 88', 'Łukasz', 'Søren', 'Fuchsia', 'Confucius', 'Fuchs']) {
     assert.equal(verifierPseudo(p), null, p);
   }
 });
@@ -22,7 +22,7 @@ test('prénoms et mots courants acceptés', () => {
 test('mots interdits et contournements refusés', () => {
   for (const p of ['merde', 'm3rd3', 'fvck', 'sh1t', 'n1que', 'puuute', 'p u t e', 'PUTAIN', 'pd', 'ＰＵＴＥ', 'pédé lol', 'ntm', 'Hitler', 'tr0is nazi', 'аrthur' /* « а » cyrillique */,
     'putes', 'culs', 'bites', 'niquetamere', 'pu te', 'suce ma bite', 'salopard', 'negre', 'violeur', 'kys', 'cocaine', 'sale juif', '1488', 'couilles', 'siegheil',
-    'n i g g e r', 'c o n n a r d', 'pute1', 'pute2010', 'p ut e', 'salePute', 'ᴘᴜᴛᴇ', 'tue toi', 'creve', '14 88', 'pétasse', 'batard', 'enkulé', 'Kevin KKK']) {
+    'n i g g e r', 'c o n n a r d', 'pute1', 'pute2010', 'p ut e', 'salePute', 'ᴘᴜᴛᴇ', 'tue toi', 'creve', '14 88', 'pétasse', 'batard', 'enkulé', 'Kevin KKK', 'pute①', 'pute１', 'ｐｕｔｅ１']) {
     assert.notEqual(verifierPseudo(p), null, p);
   }
 });
